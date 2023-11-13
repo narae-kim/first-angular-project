@@ -1,13 +1,19 @@
 <h2>Product List</h2>
 <ul>
-    <li (click)="selectedProduct = 'Webcam'">Webcam</li>
-    <li (click)="selectedProduct = 'Microphone'">Microphone</li>
-    <li (click)="selectedProduct = 'Wireless Keyboard'">Wireless Keyboard</li>
+    <li *ngFor="let product of products | sort; let i=index;" (click)="selectedProduct = product">
+        {{i+1}}. {{product.name}}
+    </li>
 </ul>
+<h3>Offers</h3>
+<ng-template appProductHost></ng-template>
 <app-product-detail
+    *ngIf="selectedProduct; else noProduct"
     #product
-    [name]="selectedProduct"
-    (bought)="onBuy()"
-></app-product-detail>
+    [product]="selectedProduct"
+    (bought)="onBuy()">
+</app-product-detail>
+<ng-template #noProduct>
+    <p>No product is selected :O</p>
+</ng-template>
 <!-- when displaying a static text -->
 <!-- <app-product-detail name="Webcam"></app-product-detail> -->
