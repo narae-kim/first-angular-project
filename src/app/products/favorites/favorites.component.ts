@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '../product';
 import { ProductsService } from '../products.service';
 import { FavoritesService } from '../favorites.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-favorites',
@@ -13,12 +14,19 @@ import { FavoritesService } from '../favorites.service';
 })
 export class FavoritesComponent implements OnInit {
 
-  products: Product[] = [];
+  products$: Observable<Product[]> | undefined; // subscribe/unsubscribe automatically by 'async'
 
   constructor(private productService: ProductsService) {}
 
   ngOnInit(): void {
-    this.products = this.productService.getProducts();
+    this.getProducts();
+  }
+
+  private getProducts() {
+    // this.productService.getProducts().subscribe(products => {
+    //   this.products$ = products;
+    // })
+    this.products$ = this.productService.getProducts();
   }
 
 }
